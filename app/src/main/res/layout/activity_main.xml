@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1565C0"
+        android:padding="20dp">
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Loading..."
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Input Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <EditText
+                        android:id="@+id/etAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Age"
+                        android:inputType="number"
+                        android:layout_marginBottom="10dp"/>
+
+                    <!-- Weight Unit Toggle -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Weight Unit:" android:textStyle="bold"/>
+                        <RadioGroup android:id="@+id/rgWeightUnit" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="end">
+                            <RadioButton android:id="@+id/rbKg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kg" android:checked="true"/>
+                            <RadioButton android:id="@+id/rbLbs" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Lbs"/>
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/etWeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Weight (Kg)"
+                        android:inputType="numberDecimal"
+                        android:layout_marginBottom="10dp"/>
+
+                    <!-- Height Unit Toggle -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Height Unit:" android:textStyle="bold"/>
+                        <RadioGroup android:id="@+id/rgHeightUnit" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="end">
+                            <RadioButton android:id="@+id/rbCm" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CM" android:checked="true"/>
+                            <RadioButton android:id="@+id/rbFt" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ft/In"/>
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <!-- Height Input: CM -->
+                    <LinearLayout
+                        android:id="@+id/layoutHeightCm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible">
+                        <EditText android:id="@+id/etHeightCm" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Height (cm)" android:inputType="numberDecimal"/>
+                    </LinearLayout>
+
+                    <!-- Height Input: Feet/Inch -->
+                    <LinearLayout
+                        android:id="@+id/layoutHeightFt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+                        <EditText android:id="@+id/etHeightFt" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Feet" android:inputType="number"/>
+                        <EditText android:id="@+id/etHeightIn" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Inches" android:inputType="number"/>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnCalculate"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:text="Calculate"
+                        android:backgroundTint="#1565C0"
+                        android:layout_marginTop="20dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Result Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="#00695C">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView android:id="@+id/tvResultBmi" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="BMI: --" android:textColor="#FFF" android:textSize="18sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/tvResultBmr" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="BMR: --" android:textColor="#FFF" android:textSize="18sp"/>
+                    <TextView android:id="@+id/tvResultSuggestion" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Status: --" android:textColor="#FFF" android:textSize="18sp"/>
+                    <TextView android:id="@+id/tvHealthTips" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#E0F2F1"/>
+
+                    <!-- DIET CHART BUTTON (Hidden until calculated) -->
+                    <Button
+                        android:id="@+id/btnDietChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View Diet Plan"
+                        android:backgroundTint="#FFA000"
+                        android:textColor="#000"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Bottom Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="20dp">
+
+                <!-- HISTORY BUTTON -->
+                <Button
+                    android:id="@+id/btnHistory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My History"
+                    android:backgroundTint="#546E7A"
+                    android:layout_marginEnd="10dp"/>
+
+                <Button
+                    android:id="@+id/btnLogout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Logout"
+                    android:backgroundTint="#C62828"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

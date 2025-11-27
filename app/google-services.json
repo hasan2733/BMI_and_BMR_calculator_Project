@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "23037394586",
+    "project_id": "bmirealtimeapp",
+    "storage_bucket": "bmirealtimeapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23037394586:android:bffaf60c9f19f29bfbe923",
+        "android_client_info": {
+          "package_name": "bd.edu.seu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGYL4tJICsO5xCixT5wPIeDlO6Suljt7w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
