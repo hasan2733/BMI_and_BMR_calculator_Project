@@ -1,22 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:padding="20dp" android:background="#E3F2FD">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Register" android:textSize="32sp" android:textStyle="bold" android:gravity="center" android:layout_marginBottom="20dp" android:textColor="#0D47A1"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#E3F2FD">
 
-        <EditText android:id="@+id/regName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Full Name" android:background="#FFF" android:padding="15dp" android:layout_marginBottom="10dp"/>
-        <EditText android:id="@+id/regEmail" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Email" android:inputType="textEmailAddress" android:background="#FFF" android:padding="15dp" android:layout_marginBottom="10dp"/>
-        <EditText android:id="@+id/regPass" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Password" android:inputType="textPassword" android:background="#FFF" android:padding="15dp" android:layout_marginBottom="10dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:textColor="#0D47A1"/>
 
-        <RadioGroup android:id="@+id/regGenderGroup" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="15dp">
-            <RadioButton android:id="@+id/rbMale" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Male" android:layout_marginEnd="20dp"/>
-            <RadioButton android:id="@+id/rbFemale" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Female"/>
-        </RadioGroup>
+    <EditText
+        android:id="@+id/regName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Full Name"
+        android:background="#FFF"
+        android:padding="15dp"
+        android:layout_marginBottom="10dp"/>
 
-        <CheckBox android:id="@+id/cbAdmin" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Register as Admin" android:layout_marginBottom="10dp"/>
-        <EditText android:id="@+id/etAdminKey" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Admin Secret Key" android:visibility="gone" android:background="#FFCDD2" android:padding="15dp" android:layout_marginBottom="15dp"/>
+    <EditText
+        android:id="@+id/regEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:background="#FFF"
+        android:padding="15dp"
+        android:layout_marginBottom="10dp"/>
 
-        <Button android:id="@+id/btnRegister" android:layout_width="match_parent" android:layout_height="60dp" android:text="SIGN UP" android:backgroundTint="#2E7D32"/>
-        <TextView android:id="@+id/tvGoToLogin" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Back to Login" android:gravity="center" android:padding="20dp" android:textColor="#1565C0"/>
-    </LinearLayout>
-</ScrollView>
+    <EditText
+        android:id="@+id/regPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:background="#FFF"
+        android:padding="15dp"
+        android:layout_marginBottom="10dp"/>
+
+    <RadioGroup
+        android:id="@+id/regGenderGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp">
+
+        <RadioButton
+            android:id="@+id/rbMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            android:layout_marginEnd="20dp"/>
+
+        <RadioButton
+            android:id="@+id/rbFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"/>
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/cbAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register as Admin"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:id="@+id/etAdminKey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Admin Secret Key"
+        android:visibility="gone"
+        android:background="#FFCDD2"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"/>
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="SIGN UP"
+        android:backgroundTint="#2E7D32"/>
+
+    <TextView
+        android:id="@+id/tvGoToLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back to Login"
+        android:gravity="center"
+        android:padding="20dp"
+        android:textColor="#1565C0"/>
+</LinearLayout>
