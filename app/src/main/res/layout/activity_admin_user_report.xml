@@ -2,5 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp">
     <TextView android:id="@+id/tvReportTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="User Report" android:textSize="22sp" android:textStyle="bold" android:layout_marginBottom="20dp" android:textColor="#000"/>
-    <ListView android:id="@+id/lvReportList" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <ListView android:id="@+id/lvReportList" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+    <Button
+        android:id="@+id/btnGoBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go Back"
+        android:backgroundTint="#C62828"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="10dp"/>
 </LinearLayout>

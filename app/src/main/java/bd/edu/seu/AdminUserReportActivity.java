@@ -3,6 +3,7 @@ package bd.edu.seu;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class AdminUserReportActivity extends AppCompatActivity {
 
         TextView title = findViewById(R.id.tvReportTitle);
         ListView listView = findViewById(R.id.lvReportList);
+        Button btnGoBack = findViewById(R.id.btnGoBack);
 
         // Handle missing name
         if (title != null) {
@@ -53,6 +55,11 @@ public class AdminUserReportActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         loadHistory();
+
+        // Go Back Button Logic
+        if (btnGoBack != null) {
+            btnGoBack.setOnClickListener(v -> finish());
+        }
 
         // Delete Listener
         listView.setOnItemLongClickListener((parent, view, position, id) -> {

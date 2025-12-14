@@ -26,6 +26,7 @@ public class DietChartActivity extends AppCompatActivity {
         TextView tvBreakdown = findViewById(R.id.tvBreakdown);
         PieChartView pieChart = findViewById(R.id.pieChartView);
         Button btnHistory = findViewById(R.id.btnDietHistory);
+        Button btnGoBack = findViewById(R.id.btnGoBack);
 
         // Update Chart
         if (pieChart != null) pieChart.setDietPlan(status);
@@ -45,6 +46,11 @@ public class DietChartActivity extends AppCompatActivity {
                 intent.putExtra("TARGET_UID", uid);
                 startActivity(intent);
             });
+        }
+
+        // Go Back Button Logic
+        if (btnGoBack != null) {
+            btnGoBack.setOnClickListener(v -> finish());
         }
     }
 
