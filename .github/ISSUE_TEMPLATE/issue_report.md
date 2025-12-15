@@ -1,46 +1,28 @@
-# 🐞 Issue Report
-
-Thank you for reporting an issue!
-
 ---
+name: 🐞 Bug / Feature Report
+about: Report bugs or request new features
+title: ""
+labels: ""
+assignees: ""
+---
+
+# 🐞 Issue Report
 
 ## 📌 Issue Type
 - [ ] Bug report
 - [ ] Feature request
 - [ ] Documentation issue
-- [ ] Other
-
----
 
 ## 📝 Description
-Please provide a clear and concise description of the issue.
+Describe the issue clearly.
 
----
-
-## 🔁 Steps to Reproduce (for bugs)
-1. Go to '...'
-2. Click on '...'
-3. Scroll down to '...'
-4. See error
-
----
+## 🔁 Steps to Reproduce
+1. …
+2. …
 
 ## ✅ Expected Behavior
-Describe what you expected to happen.
-
----
+What should happen?
 
 ## 📱 Environment
-- Device: Emulator / Physical Device
+- Device:
 - Android Version:
-- App Version:
-
----
-
-## 📸 Screenshots (Optional)
-Add screenshots if applicable.
-
----
-
-## 💡 Additional Context
-Add any other information here.
