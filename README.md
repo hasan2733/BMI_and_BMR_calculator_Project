@@ -1,5 +1,11 @@
 # 📱 BMI & BMR Health Tracker (Android | Full‑Stack)
 
+![Java](https://img.shields.io/badge/Language-Java-orange)
+![Android](https://img.shields.io/badge/Platform-Android-green)
+![Firebase](https://img.shields.io/badge/Backend-Firebase-yellow)
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Status](https://img.shields.io/badge/Status-Active-success)
+
 A **comprehensive Android health application** built using **Java in Android Studio** that calculates **Body Mass Index (BMI)** and **Basal Metabolic Rate (BMR)**. The app features a secure **dual‑user system (Admin & User)**, real‑time cloud synchronization using **Firebase Realtime Database**, and **dynamic visual diet plans** to promote health awareness.
 
 ---
