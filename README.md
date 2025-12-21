@@ -91,7 +91,7 @@ This project demonstrates practical skills in **Android development, Firebase in
 
   * View total number of registered users
 
----
+--
 
 ## 🛠️ Tech Stack
 
