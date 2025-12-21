@@ -24,6 +24,7 @@ public class DietChartActivity extends AppCompatActivity {
         TextView tvTitle = findViewById(R.id.tvDietTitle);
         TextView tvCal = findViewById(R.id.tvDailyCalories);
         TextView tvBreakdown = findViewById(R.id.tvBreakdown);
+        TextView tvHealthTip = findViewById(R.id.tvHealthTip);
         PieChartView pieChart = findViewById(R.id.pieChartView);
         Button btnHistory = findViewById(R.id.btnDietHistory);
         Button btnGoBack = findViewById(R.id.btnGoBack);
@@ -35,8 +36,7 @@ public class DietChartActivity extends AppCompatActivity {
         tvTitle.setText("Plan for: " + status);
         tvCal.setText(String.format("Daily Target: %.0f Calories", bmr * 1.2));
 
-        setTipsAndBreakdown(tvBreakdown, status);
-        tvBreakdown.setVisibility(View.VISIBLE);
+        setTipsAndBreakdown(tvBreakdown, tvHealthTip, status);
 
         // History Button Logic
         if (btnHistory != null) {
@@ -54,27 +54,44 @@ public class DietChartActivity extends AppCompatActivity {
         }
     }
 
-    private void setTipsAndBreakdown(TextView tv, String status) {
+    private void setTipsAndBreakdown(TextView tvBreakdown, TextView tvTip, String status) {
         String text;
         String tip;
         switch (status) {
             case "Underweight":
-                text = "• Increase Carbs (Rice, Potato).\n• Add Healthy Fats (Nuts).";
-                tip = "\n💡 HEALTH TIP: Eat 5-6 small meals. Add extra cheese or butter to meals.";
+                text = "• Increase calorie intake with nutrient-dense foods.\n" +
+                        "• Include complex carbs: brown rice, sweet potatoes, oats.\n" +
+                        "• Add healthy fats: avocados, nuts, seeds, olive oil.\n" +
+                        "• Eat protein-rich foods: eggs, dairy, lean meat, legumes.";
+                tip = "💡 Aim for 5–6 smaller meals throughout the day. " +
+                        "Add calorie boosters like peanut butter, cheese, or full-fat yogurt to meals.";
                 break;
             case "Overweight":
-                text = "• Reduce Rice/Bread.\n• Increase Lean Protein.";
-                tip = "\n💡 HEALTH TIP: Walk 30 mins daily. Drink water before meals.";
+                text = "• Focus on portion control and whole foods.\n" +
+                        "• Reduce refined carbs (white rice, bread, sugary items).\n" +
+                        "• Increase lean protein: chicken, fish, tofu, eggs.\n" +
+                        "• Fill half your plate with non-starchy vegetables.";
+                tip = "💡 Drink a glass of water 15–20 minutes before meals. " +
+                        "Walk 30–45 minutes daily and aim for consistent, enjoyable activity.";
                 break;
             case "Obese":
-                text = "• Low Carb.\n• High Fiber Veggies.";
-                tip = "\n💡 HEALTH TIP: Try swimming or low-impact cardio. Consult a doctor.";
+                text = "• Prioritize low-calorie, high-volume foods.\n" +
+                        "• Choose high-fiber vegetables and moderate lean protein.\n" +
+                        "• Limit processed carbs and sugary drinks.\n" +
+                        "• Focus on sustainable, gradual changes.";
+                tip = "💡 Start with low-impact exercises like walking or swimming. " +
+                        "Consult a doctor or dietitian before making major changes.";
                 break;
             default: // Normal
-                text = "• Balanced Diet.\n• Moderate Carbs & Protein.";
-                tip = "\n💡 HEALTH TIP: Maintain active lifestyle and drink 3L water.";
+                text = "• Maintain a balanced and varied diet.\n" +
+                        "• Include a mix of complex carbs, lean proteins, and healthy fats.\n" +
+                        "• Eat plenty of fruits and vegetables daily.\n" +
+                        "• Practice mindful portion sizes.";
+                tip = "💡 Stay active with regular exercise you enjoy. " +
+                        "Aim for at least 2–3 liters of water daily and prioritize sleep.";
                 break;
         }
-        tv.setText(text + tip);
+        tvBreakdown.setText(text);
+        tvTip.setText(tip);
     }
 }
