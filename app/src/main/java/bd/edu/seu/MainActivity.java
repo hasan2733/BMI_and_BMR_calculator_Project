@@ -145,6 +145,85 @@ public class MainActivity extends AppCompatActivity {
                 hCm = hM * 100;
             }
 
+            // age validation
+            if(age < 5 || age > 120)
+            {
+                if(age < 5)
+                    Toast.makeText(this, "Age must be greater than 5", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(this, "Age must be less than 120", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // weight validation
+            if(age < 10)
+            {
+                if(wKg < 10 || wKg > 50)
+                {
+                    Toast.makeText(this, "Invalid weight for child age!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            else if(age <= 20)
+            {
+                if(wKg <30 || wKg >90)
+                {
+                    Toast.makeText(this, "Invalid weight for teenager age!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            else if(age <= 60)
+            {
+                if(wKg < 40 || wKg > 150)
+                {
+                    Toast.makeText(this, "Invalid weight for adult age!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            else if(age > 60 )
+            {
+                if(wKg < 35 || wKg > 120)
+                {
+                    Toast.makeText(this, "Invalid weight for senior age!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            // Height validation
+            if(age < 10 )
+            {
+                if(hCm < 70 || hCm > 150)
+                {
+                    Toast.makeText(this, "Invalid height for child age!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            else if(age <= 20 )
+            {
+                if(hCm < 120 || hCm > 190)
+                {
+                    Toast.makeText(this, "Invalid height for teenager age!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            else if(age <= 60 )
+            {
+                if(hCm < 140 || hCm > 210)
+                {
+                    Toast.makeText(this, "Invalid height for adult age!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            else if (age > 60 )
+            {
+                if(hCm < 130 || hCm > 200)
+                {
+                    Toast.makeText(this, "Invalid height for senior age!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+
             double bmi = wKg / (hM * hM);
             double bmr = (userGender.equalsIgnoreCase("Male"))
                     ? (10 * wKg + 6.25 * hCm - 5 * age + 5)
