@@ -250,6 +250,8 @@ public class MainActivity extends AppCompatActivity {
             tvBmi.setText(String.format("BMI: %.2f", bmi));
             tvBmr.setText(String.format("BMR: %.0f", bmr));
             tvStatus.setText("Status: " + status);
+            appendWeightGoal(hM, wKg);
+            
 
             lastBmr = bmr;
             lastStatus = status;
@@ -279,5 +281,29 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+    /**
+     * Calculates the ideal weight range and appends target goals to the UI.
+     */
+    private void appendWeightGoal(double hM, double currentKg) {
+        // Ideal BMI range: 18.5 to 24.9
+        double minWeight = 18.5 * (hM * hM);
+        double maxWeight = 24.9 * (hM * hM);
+
+        StringBuilder goalMsg = new StringBuilder();
+        goalMsg.append("\n\nIdeal Weight: ").append(String.format("%.1f", minWeight))
+                .append(" - ").append(String.format("%.1f", maxWeight)).append(" Kg");
+
+        if (currentKg > maxWeight) {
+            double diff = currentKg - maxWeight;
+            goalMsg.append("\nGoal: Lose ").append(String.format("%.1f", diff)).append(" Kg");
+        } else if (currentKg < minWeight) {
+            double diff = minWeight - currentKg;
+            goalMsg.append("\nGoal: Gain ").append(String.format("%.1f", diff)).append(" Kg");
+        } else {
+            goalMsg.append("\nGoal: You are at a perfect weight!");
+        }
+
+        tvStatus.append(goalMsg.toString());
     }
 }
