@@ -135,6 +135,19 @@
                     <TextView android:id="@+id/tvResultBmi" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="BMI: --" android:textColor="#FFF" android:textSize="18sp" android:textStyle="bold"/>
                     <TextView android:id="@+id/tvResultBmr" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="BMR: --" android:textColor="#FFF" android:textSize="18sp"/>
                     <TextView android:id="@+id/tvResultSuggestion" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Status: --" android:textColor="#FFF" android:textSize="18sp"/>
+
+                    <!-- ADDED: Ideal Weight TextView -->
+                    <TextView
+                        android:id="@+id/tvIdealWeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ideal Weight: --"
+                        android:textColor="#E0F2F1"
+                        android:textSize="16sp"
+                        android:textStyle="italic"
+                        android:visibility="gone"
+                        android:layout_marginTop="5dp"/>
+
                     <TextView android:id="@+id/tvHealthTips" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textColor="#E0F2F1" android:visibility="gone"/>
 
                     <!-- DIET CHART BUTTON (Hidden until calculated) -->
