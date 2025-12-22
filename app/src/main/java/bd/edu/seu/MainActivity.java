@@ -1,6 +1,7 @@
 package bd.edu.seu;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText etAge, etWeight, etCm, etFt, etIn;
     private LinearLayout layCm, layFt;
     private TextView tvBmi, tvBmr, tvStatus, tvTips, tvWelcome;
-    private Button btnDiet, btnHistory;
+    private Button btnDiet, btnHistory, btnViewTips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnDiet = findViewById(R.id.btnDietChart);
         btnHistory = findViewById(R.id.btnHistory);
+        btnViewTips = findViewById(R.id.btnViewTips);
 
         loadUser();
 
@@ -96,6 +99,31 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnViewTips.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Personalized Health Tips");
+
+            String message = "";
+            switch (lastStatus) {
+                case "Underweight":
+                    message = "1. Eat more frequently and choose nutrient-rich foods.\n2. Add healthy snacks between meals.\n3. Incorporate strength training to build muscle mass.";
+                    break;
+                case "Healthy Weight":
+                    message = "1. Maintain a balanced diet and regular exercise routine.\n2. Ensure you get 7-8 hours of quality sleep.\n3. Stay hydrated throughout the day.";
+                    break;
+                case "Overweight":
+                    message = "1. Focus on portion control and mindful eating.\n2. Increase physical activity, aiming for 30-60 minutes most days.\n3. Limit processed foods and sugary drinks.";
+                    break;
+                default:
+                    message = "Please calculate your BMI first to get personalized tips.";
+                    break;
+            }
+
+            builder.setMessage(message);
+            builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+            builder.show();
+        });
     }
 
     private void calculate() {
@@ -122,28 +150,37 @@ public class MainActivity extends AppCompatActivity {
                     ? (10 * wKg + 6.25 * hCm - 5 * age + 5)
                     : (10 * wKg + 6.25 * hCm - 5 * age - 161);
 
-            String status = getStatus(bmi);
-            String tips = getTips(bmi);
+            String status;
+            if (bmi < 18.5) {
+                status = "Underweight";
+                tvStatus.setTextColor(Color.YELLOW);
+            } else if (bmi >= 18.5 && bmi < 24.9) {
+                status = "Healthy Weight";
+                tvStatus.setTextColor(Color.GREEN);
+            } else {
+                status = "Overweight";
+                tvStatus.setTextColor(Color.RED);
+            }
 
             tvBmi.setText(String.format("BMI: %.2f", bmi));
             tvBmr.setText(String.format("BMR: %.0f", bmr));
             tvStatus.setText("Status: " + status);
-            tvTips.setText(tips);
 
             lastBmr = bmr;
             lastStatus = status;
             btnDiet.setVisibility(View.VISIBLE);
+            btnViewTips.setVisibility(View.VISIBLE);
 
-            saveRecord(bmi, bmr, status, tips);
+            saveRecord(bmi, bmr, status);
 
         } catch (Exception e) { Toast.makeText(this, "Check Inputs", Toast.LENGTH_SHORT).show(); }
     }
 
-    private void saveRecord(double bmi, double bmr, String s, String tips) {
+    private void saveRecord(double bmi, double bmr, String s) {
         if(mAuth.getCurrentUser() == null) return;
         String uid = mAuth.getCurrentUser().getUid();
         String key = mDatabase.child("history").child(uid).push().getKey();
-        BmiRecord rec = new BmiRecord(key, bmi, bmr, s, tips, System.currentTimeMillis());
+        BmiRecord rec = new BmiRecord(key, bmi, bmr, s, "", System.currentTimeMillis());
         mDatabase.child("history").child(uid).child(key).setValue(rec);
     }
 
@@ -157,19 +194,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private String getStatus(double bmi) {
-        if (bmi < 18.5) return "Underweight";
-        if (bmi < 25) return "Normal";
-        if (bmi < 30) return "Overweight";
-        return "Obese";
-    }
-
-    private String getTips(double bmi) {
-        if (bmi < 18.5) return "Eat more frequently.";
-        if (bmi < 25) return "Maintain activity.";
-        if (bmi < 30) return "Cut sugar.";
-        return "Consult a doctor.";
     }
 }
