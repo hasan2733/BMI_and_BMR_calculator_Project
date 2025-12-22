@@ -216,7 +216,6 @@ bmi-bmr-calculator/
 
 ## 📸 Screenshots
 
-*(Add screenshots here)*
 
 * Login Screen
 * <img width="391" height="829" alt="Screenshot 2025-12-15 221034" src="https://github.com/user-attachments/assets/ba7ac8a5-598a-465d-9b78-e5b64a5ec239" />
