@@ -1,5 +1,6 @@
-# 📱 BMI & BMR Health Tracker  
-### Android Application | Java | Firebase | Full-Stack Project
+# 📱 BMI & BMR Calculator  
+### 🤖 Android Application | ☕ Java | 🔥 Firebase | 🌐 Full-Stack Project
+
 
 A full-stack Android health tracking application developed using **Java in Android Studio**.  
 This app helps users calculate **Body Mass Index (BMI)** and **Basal Metabolic Rate (BMR)**, track health history, and follow personalized diet plans with **real-time Firebase cloud synchronization**.
@@ -130,14 +131,23 @@ The project follows **MVC (Model-View-Controller)** pattern:
 
 ### 📸 Screenshots
 **Login Screen** 
+
 <img width="373" height="811" alt="Screenshot 2025-12-22 205319" src="https://github.com/user-attachments/assets/0be3a4e4-f25e-45a1-bcea-0585779bf49a" />
+
 **Dashboard**
+
 <img width="361" height="806" alt="Screenshot 2025-12-22 205154" src="https://github.com/user-attachments/assets/0ce62d6a-cf39-4520-aeeb-74e92098a2f8" />
+
 **Diet Chart**
+
 <img width="365" height="811" alt="Screenshot 2025-12-22 205214" src="https://github.com/user-attachments/assets/7ee2fca6-6119-417c-8fb4-50290175dd55" />
+
 **History**
+
 <img width="357" height="807" alt="Screenshot 2025-12-22 205235" src="https://github.com/user-attachments/assets/1cd65723-37df-432b-9159-64c8e983c235" />
+
 **Health Tips**
+
 <img width="350" height="773" alt="Screenshot 2025-12-22 205302" src="https://github.com/user-attachments/assets/4bd1d6ca-40ae-40af-8109-7add8b97aef9" />
 
 
