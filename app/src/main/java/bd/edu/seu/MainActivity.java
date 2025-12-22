@@ -115,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
                 case "Overweight":
                     message = "1. Focus on portion control and mindful eating.\n2. Increase physical activity, aiming for 30-60 minutes most days.\n3. Limit processed foods and sugary drinks.";
                     break;
+                case "Obese":
+                    message = "1. It is highly recommended to consult a doctor or a registered dietitian.\n2. Focus on a balanced, calorie-controlled diet.\n3. Incorporate regular, moderate-intensity exercise into your routine.";
+                    break;
                 default:
                     message = "Please calculate your BMI first to get personalized tips.";
                     break;
@@ -236,8 +239,11 @@ public class MainActivity extends AppCompatActivity {
             } else if (bmi >= 18.5 && bmi < 24.9) {
                 status = "Healthy Weight";
                 tvStatus.setTextColor(Color.GREEN);
-            } else {
+            } else if (bmi >= 24.9 && bmi < 30) {
                 status = "Overweight";
+                tvStatus.setTextColor(Color.parseColor("#FFA500"));
+            } else {
+                status = "Obese";
                 tvStatus.setTextColor(Color.RED);
             }
 
