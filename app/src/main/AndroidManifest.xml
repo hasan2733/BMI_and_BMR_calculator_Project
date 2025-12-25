@@ -23,6 +23,7 @@
         <activity android:name=".AdminActivity" />
         <activity android:name=".AdminUserReportActivity" />
         <activity android:name=".DietChartActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
 
     </application>
 </manifest>

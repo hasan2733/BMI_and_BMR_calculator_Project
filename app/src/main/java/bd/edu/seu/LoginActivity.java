@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,8 +32,12 @@ public class LoginActivity extends AppCompatActivity {
         EditText etPass = findViewById(R.id.loginPass);
         Button btnLogin = findViewById(R.id.btnLogin);
         Button btnReg = findViewById(R.id.btnGoToRegister);
+        TextView tvForgot = findViewById(R.id.tvForgotPassword);
 
         btnReg.setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
+
+
+        tvForgot.setOnClickListener(v -> startActivity(new Intent(this, ForgotPasswordActivity.class)));
 
         btnLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
