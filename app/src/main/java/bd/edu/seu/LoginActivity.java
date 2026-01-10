@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "User data not found!", Toast.LENGTH_SHORT).show();
-                         }
+                        }
                     }
 
                     @Override
