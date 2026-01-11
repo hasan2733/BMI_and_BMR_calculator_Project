@@ -1,51 +1,59 @@
 package bd.edu.seu;
 
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import bd.edu.seu.models.BmiRecord;
 import bd.edu.seu.models.User;
 
 public class MainActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
-    private String userGender = "";
-    private double lastBmr = 0;
-    private String lastStatus = "";
+    FirebaseAuth mAuth;
+    FirebaseDatabase mDatabase;
 
-    // Inputs
-    private RadioGroup rgWeight, rgHeight;
-    private EditText etAge, etWeight, etCm, etFt, etIn;
-    private LinearLayout layCm, layFt;
-    private TextView tvBmi, tvBmr, tvStatus, tvTips, tvWelcome;
-    private Button btnDiet, btnHistory, btnViewTips;
+    private String userGender = "";
+    private String lastStatus = "";
+    private double lastBmr = 0.0;
+    private RadioGroup rgWeightUnit,rgHeightUnit;
+    private EditText etAge,etWeight,etCm,etFt,etIn;
+    private TextView tvBmi,tvBmr,tvStatus,tvWelcome;
+    private LinearLayout layCm,layFt;
+    Button btnCalculate,btnHistory,btnLogout,btnDietChart,btnViewTips;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle saveInstanceState)
+    {
+        super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_main);
-
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance();
 
-        // Bind Views
         tvWelcome = findViewById(R.id.tvWelcome);
         tvBmi = findViewById(R.id.tvResultBmi);
         tvBmr = findViewById(R.id.tvResultBmr);
         tvStatus = findViewById(R.id.tvResultSuggestion);
-        tvTips = findViewById(R.id.tvHealthTips);
+
+        layCm = findViewById(R.id.layoutHeightCm);
+        layFt = findViewById(R.id.layoutHeightFt);
 
         etAge = findViewById(R.id.etAge);
         etWeight = findViewById(R.id.etWeight);
@@ -53,99 +61,144 @@ public class MainActivity extends AppCompatActivity {
         etFt = findViewById(R.id.etHeightFt);
         etIn = findViewById(R.id.etHeightIn);
 
-        rgWeight = findViewById(R.id.rgWeightUnit);
-        rgHeight = findViewById(R.id.rgHeightUnit);
-        layCm = findViewById(R.id.layoutHeightCm);
-        layFt = findViewById(R.id.layoutHeightFt);
+        rgWeightUnit = findViewById(R.id.rgWeightUnit);
+        rgHeightUnit = findViewById(R.id.rgHeightUnit);
 
-        btnDiet = findViewById(R.id.btnDietChart);
+        btnCalculate = findViewById(R.id.btnCalculate);
         btnHistory = findViewById(R.id.btnHistory);
+        btnLogout = findViewById(R.id.btnLogout);
+        btnDietChart = findViewById(R.id.btnDietChart);
         btnViewTips = findViewById(R.id.btnViewTips);
 
-        loadUser();
+        load();
 
-        // Toggles
-        rgHeight.setOnCheckedChangeListener((g, id) -> {
-            layCm.setVisibility(id == R.id.rbCm ? View.VISIBLE : View.GONE);
-            layFt.setVisibility(id == R.id.rbCm ? View.GONE : View.VISIBLE);
+        rgHeightUnit.setOnCheckedChangeListener((g,id)->{
+            if(id == R.id.rbCm)
+            {
+                layCm.setVisibility(View.VISIBLE);
+                layFt.setVisibility(View.GONE);
+            }
+            else
+            {
+                layCm.setVisibility(View.GONE);
+                layFt.setVisibility(View.VISIBLE);
+            }
         });
 
-        rgWeight.setOnCheckedChangeListener((g, id) -> {
-            etWeight.setHint(id == R.id.rbKg ? "Weight (Kg)" : "Weight (Lbs)");
+        rgWeightUnit.setOnCheckedChangeListener((g,id)->{
+            if(id == R.id.rbKg)
+            {
+                etWeight.setHint("Weight (kg)");
+            }
+            else
+            {
+                etWeight.setHint("Weight (lb)");
+            }
         });
 
-        findViewById(R.id.btnCalculate).setOnClickListener(v -> calculate());
+        btnHistory.setOnClickListener(v->{
+            startActivity(new Intent(MainActivity.this,AdminUserReportActivity.class));
+        });
 
-        findViewById(R.id.btnLogout).setOnClickListener(v -> {
+        btnHistory.setOnClickListener(v->{
             mAuth.signOut();
-            startActivity(new Intent(this, LoginActivity.class));
             finish();
         });
 
-        // Open Diet Chart
-        btnDiet.setOnClickListener(v -> {
-            if(lastBmr == 0) return;
-            Intent i = new Intent(this, DietChartActivity.class);
-            i.putExtra("BMR", lastBmr);
-            i.putExtra("STATUS", lastStatus);
+        btnCalculate.setOnClickListener(v->{
+            calculate();
+        });
+
+        //Diet Chart Button
+        btnDietChart.setOnClickListener(v->{
+            Intent intent = new Intent(MainActivity.this,DietChartActivity.class);
+            intent.putExtra("BMR",lastBmr);
+            intent.putExtra("STATUS",lastStatus);
+            startActivity(intent);
+        });
+
+        //history Button
+        btnHistory.setOnClickListener(v->{
+            Intent i = new Intent(MainActivity.this,AdminUserReportActivity.class);
+            i.putExtra("TARGET_UID",mAuth.getUid());
             startActivity(i);
         });
 
-        // Open History
-        btnHistory.setOnClickListener(v -> {
-            if (mAuth.getCurrentUser() != null) {
-                Intent intent = new Intent(MainActivity.this, AdminUserReportActivity.class);
-                intent.putExtra("TARGET_UID", mAuth.getCurrentUser().getUid());
-                startActivity(intent);
-            }
-        });
 
-        btnViewTips.setOnClickListener(v -> {
+        //View Tips Button
+        btnViewTips.setOnClickListener(v->{
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Personalized Health Tips");
-
+            builder.setTitle("Personalized Diet Tips");
             String message = "";
-            switch (lastStatus) {
-                case "Underweight":
-                    message = "1. Eat more frequently and choose nutrient-rich foods.\n2. Add healthy snacks between meals.\n3. Incorporate strength training to build muscle mass.";
-                    break;
-                case "Healthy Weight":
-                    message = "1. Maintain a balanced diet and regular exercise routine.\n2. Ensure you get 7-8 hours of quality sleep.\n3. Stay hydrated throughout the day.";
-                    break;
-                case "Overweight":
-                    message = "1. Focus on portion control and mindful eating.\n2. Increase physical activity, aiming for 30-60 minutes most days.\n3. Limit processed foods and sugary drinks.";
-                    break;
-                case "Obese":
-                    message = "1. It is highly recommended to consult a doctor or a registered dietitian.\n2. Focus on a balanced, calorie-controlled diet.\n3. Incorporate regular, moderate-intensity exercise into your routine.";
-                    break;
-                default:
-                    message = "Please calculate your BMI first to get personalized tips.";
-                    break;
+            switch (lastStatus)
+            {
+                 case "Underweight":
+                 message = "1. Eat more frequently and choose nutrient-rich foods.\n2. Add healthy snacks between meals.\n3. Incorporate strength training to build muscle mass.";
+                 break;
+                 case "Healthy Weight":
+                 message = "1. Maintain a balanced diet and regular exercise routine.\n2. Ensure you get 7-8 hours of quality sleep.\n3. Stay hydrated throughout the day.";
+                 break;
+                 case "Overweight":
+                 message = "1. Focus on portion control and mindful eating.\n2. Increase physical activity, aiming for 30-60 minutes most days.\n3. Limit processed foods and sugary drinks.";
+                 break;
+                 case "Obese":
+                 message = "1. It is highly recommended to consult a doctor or a registered dietitian.\n2. Focus on a balanced, calorie-controlled diet.\n3. Incorporate regular, moderate-intensity exercise into your routine.";
+                 break;
+                 default:
+                 message = "Please calculate your BMI first to get personalized tips.";
+                 break;
             }
-
             builder.setMessage(message);
-            builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+            builder.setPositiveButton("OK",null);
             builder.show();
         });
     }
+    private void load()
+    {
+        if(mAuth.getCurrentUser() != null)
+        {
+            mDatabase.getReference("users").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User user = snapshot.getValue(User.class);
+                    if(user!=null)
+                    {
+                        tvWelcome.setText("Welcome, " + user.getName());
+                        userGender = user.getGender();
+                    }
+                }
 
-    private void calculate() {
-        if(userGender.isEmpty()) { Toast.makeText(this, "Loading user info...", Toast.LENGTH_SHORT).show(); return; }
-        try {
-            double age = Double.parseDouble(etAge.getText().toString());
-            double wVal = Double.parseDouble(etWeight.getText().toString());
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    tvWelcome.setText("Error: " + error.getMessage());
+                }
+            });
+        }
+    }
 
-            double wKg = (rgWeight.getCheckedRadioButtonId() == R.id.rbKg) ? wVal : wVal / 2.20462;
-            double hM, hCm;
-
-            if (rgHeight.getCheckedRadioButtonId() == R.id.rbCm) {
-                hCm = Double.parseDouble(etCm.getText().toString());
-                hM = hCm / 100.0;
-            } else {
-                double ft = etFt.getText().toString().isEmpty() ? 0 : Double.parseDouble(etFt.getText().toString());
-                double in = etIn.getText().toString().isEmpty() ? 0 : Double.parseDouble(etIn.getText().toString());
-                hM = ((ft * 12) + in) * 0.0254;
-                hCm = hM * 100;
+    private void calculate()
+    {
+        if(userGender.isEmpty())
+        {
+            Toast.makeText(MainActivity.this,"Please login first",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try{
+            double age = Double.parseDouble(etAge.getText().toString().trim());
+            double weight = Double.parseDouble(etWeight.getText().toString().trim());
+            double wKg = (rgWeightUnit.getCheckedRadioButtonId() == R.id.rbKg) ? weight : weight * 0.453592;
+            double hM,hCm=0.0;
+            if(R.id.rbCm == rgHeightUnit.getCheckedRadioButtonId())
+            {
+                hCm = Double.parseDouble(etCm.getText().toString().trim());
+                hM = hCm/100;
+            }
+            else
+            {
+                double ft = Double.parseDouble(etFt.getText().toString().trim());
+                double in = Double.parseDouble(etIn.getText().toString().trim());
+                hM = (ft*0.3048) + (in*0.0254);
+                hCm = hM*100;
             }
 
             // age validation
@@ -226,11 +279,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-
-            double bmi = wKg / (hM * hM);
-            double bmr = (userGender.equalsIgnoreCase("Male"))
-                    ? (10 * wKg + 6.25 * hCm - 5 * age + 5)
-                    : (10 * wKg + 6.25 * hCm - 5 * age - 161);
+            double bmi = wKg/(hM*hM);
+            double bmr = userGender.equalsIgnoreCase("Male")
+                    ? 66.47 + (13.75 * wKg) + (5.003 * hCm) - (6.755 * age)
+                    : 655.1 + (9.563 * wKg) + (1.85 * hCm) - (4.676 * age);
 
             String status;
             if (bmi < 18.5) {
@@ -246,46 +298,26 @@ public class MainActivity extends AppCompatActivity {
                 status = "Obese";
                 tvStatus.setTextColor(Color.RED);
             }
-
-            tvBmi.setText(String.format("BMI: %.2f", bmi));
-            tvBmr.setText(String.format("BMR: %.0f", bmr));
+            tvBmi.setText("BMI: " + String.format("%.2f",bmi));
+            tvBmr.setText("BMR: " + String.format("%.2f",bmr));
             tvStatus.setText("Status: " + status);
-            appendWeightGoal(hM, wKg);
-            
-
-            lastBmr = bmr;
             lastStatus = status;
-            btnDiet.setVisibility(View.VISIBLE);
-            btnViewTips.setVisibility(View.VISIBLE);
-
-            saveRecord(bmi, bmr, status);
-
-        } catch (Exception e) { Toast.makeText(this, "Check Inputs", Toast.LENGTH_SHORT).show(); }
-    }
-
-    private void saveRecord(double bmi, double bmr, String s) {
-        if(mAuth.getCurrentUser() == null) return;
-        String uid = mAuth.getCurrentUser().getUid();
-        String key = mDatabase.child("history").child(uid).push().getKey();
-        BmiRecord rec = new BmiRecord(key, bmi, bmr, s, "", System.currentTimeMillis());
-        mDatabase.child("history").child(uid).child(key).setValue(rec);
-    }
-
-    private void loadUser() {
-        if(mAuth.getCurrentUser() != null) {
-            mDatabase.child("users").child(mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(s -> {
-                User u = s.getValue(User.class);
-                if(u != null) {
-                    tvWelcome.setText("Hi " + u.getName());
-                    userGender = u.getGender();
-                }
-            });
+            lastBmr = bmr;
+            appendWeightGoal(wKg,hM);
+            btnDietChart.setVisibility(LinearLayout.VISIBLE);
+            btnViewTips.setVisibility(LinearLayout.VISIBLE);
+            save(bmi,bmr,status);
+        }
+        catch (Exception e) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
     /**
      * Calculates the ideal weight range and appends target goals to the UI.
      */
-    private void appendWeightGoal(double hM, double currentKg) {
+    private void appendWeightGoal(double currentKg, double hM)
+    {
         // Ideal BMI range: 18.5 to 24.9
         double minWeight = 18.5 * (hM * hM);
         double maxWeight = 24.9 * (hM * hM);
@@ -305,5 +337,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         tvStatus.append(goalMsg.toString());
+    }
+    private void save(double bmi,double bmr,String status)
+    {
+        String key = mDatabase.getReference("history").child(mAuth.getCurrentUser().getUid()).push().getKey();
+        if(key!=null)
+        {
+            mDatabase.getReference("history").child(mAuth.getCurrentUser().getUid()).child(key).setValue(new BmiRecord(key,bmi,bmr,"",status,System.currentTimeMillis()))
+                    .addOnSuccessListener(v-> Toast.makeText(MainActivity.this,"Saved",Toast.LENGTH_SHORT).show()).addOnFailureListener(v->
+                            Toast.makeText(MainActivity.this,"Error: " + v.getMessage(),Toast.LENGTH_SHORT).show());
+        }
     }
 }
