@@ -29,13 +29,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(saveInstanceState);
 
 
-        setContentView(R.layout.activity_login);
 
         if(mAuth.getCurrentUser()!=null)
         {
             checkRole(mAuth.getUid());
             return;
         }
+
+        setContentView(R.layout.activity_login);
 
 
         EditText etEmail = findViewById(R.id.loginEmail);
@@ -45,13 +46,11 @@ public class LoginActivity extends AppCompatActivity {
         Button btnGoToRegister = findViewById(R.id.btnGoToRegister);
 
         tvForgotPassword.setOnClickListener(v->{
-            startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+            startActivity(new Intent(this, ForgotPasswordActivity.class));
         });
 
-        btnGoToRegister.setOnClickListener(v->{
-            startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
-        });
 
+        btnGoToRegister.setOnClickListener(v->startActivity(new Intent(this,RegisterActivity.class)));
         btnLogin.setOnClickListener(v->{
             String email = etEmail.getText().toString().trim();
             String pass = etPass.getText().toString().trim();

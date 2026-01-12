@@ -28,6 +28,8 @@ import bd.edu.seu.models.User;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
+
+    String tips = "";
     FirebaseDatabase mDatabase;
 
     private String userGender = "";
@@ -149,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
             builder.setMessage(message);
+            tips = message;
             builder.setPositiveButton("OK",null);
             builder.show();
         });
@@ -348,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
         String key = mDatabase.getReference("history").child(mAuth.getCurrentUser().getUid()).push().getKey();
         if(key!=null)
         {
-            mDatabase.getReference("history").child(mAuth.getCurrentUser().getUid()).child(key).setValue(new BmiRecord(key,bmi,bmr,"",status,System.currentTimeMillis()))
+            mDatabase.getReference("history").child(mAuth.getCurrentUser().getUid()).child(key).setValue(new BmiRecord(key,bmi,bmr,status,tips,System.currentTimeMillis()))
                     .addOnSuccessListener(v-> Toast.makeText(MainActivity.this,"Saved",Toast.LENGTH_SHORT).show()).addOnFailureListener(v->
                             Toast.makeText(MainActivity.this,"Error: " + v.getMessage(),Toast.LENGTH_SHORT).show());
         }
