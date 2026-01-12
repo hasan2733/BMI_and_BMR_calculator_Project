@@ -132,25 +132,30 @@ public class MainActivity extends AppCompatActivity {
             String message = "";
             switch (lastStatus)
             {
-                 case "Underweight":
-                 message = "1. Eat more frequently and choose nutrient-rich foods.\n2. Add healthy snacks between meals.\n3. Incorporate strength training to build muscle mass.";
-                 break;
-                 case "Healthy Weight":
-                 message = "1. Maintain a balanced diet and regular exercise routine.\n2. Ensure you get 7-8 hours of quality sleep.\n3. Stay hydrated throughout the day.";
-                 break;
-                 case "Overweight":
-                 message = "1. Focus on portion control and mindful eating.\n2. Increase physical activity, aiming for 30-60 minutes most days.\n3. Limit processed foods and sugary drinks.";
-                 break;
-                 case "Obese":
-                 message = "1. It is highly recommended to consult a doctor or a registered dietitian.\n2. Focus on a balanced, calorie-controlled diet.\n3. Incorporate regular, moderate-intensity exercise into your routine.";
-                 break;
-                 default:
-                 message = "Please calculate your BMI first to get personalized tips.";
-                 break;
+                case "Underweight":
+                    message = "1. Eat more frequently and choose nutrient-rich foods.\n2. Add healthy snacks between meals.\n3. Incorporate strength training to build muscle mass.";
+                    break;
+                case "Healthy Weight":
+                    message = "1. Maintain a balanced diet and regular exercise routine.\n2. Ensure you get 7-8 hours of quality sleep.\n3. Stay hydrated throughout the day.";
+                    break;
+                case "Overweight":
+                    message = "1. Focus on portion control and mindful eating.\n2. Increase physical activity, aiming for 30-60 minutes most days.\n3. Limit processed foods and sugary drinks.";
+                    break;
+                case "Obese":
+                    message = "1. It is highly recommended to consult a doctor or a registered dietitian.\n2. Focus on a balanced, calorie-controlled diet.\n3. Incorporate regular, moderate-intensity exercise into your routine.";
+                    break;
+                default:
+                    message = "Please calculate your BMI first to get personalized tips.";
+                    break;
             }
             builder.setMessage(message);
             builder.setPositiveButton("OK",null);
             builder.show();
+        });
+
+        btnLogout.setOnClickListener(v->{
+            mAuth.signOut();
+            finish();
         });
     }
     private void load()
